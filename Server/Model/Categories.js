@@ -1,10 +1,12 @@
 const { default: mongoose } = require("mongoose");
 
 const categorySchema = new mongoose.Schema({
+    // Bio-Chemistry/Heamogram...
     category:{
         type: String,
         required: true,
     },
+    // CBC/Lipid count...
     subCategory:{
         type: String,
         required: true,

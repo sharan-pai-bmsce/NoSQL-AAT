@@ -16,12 +16,11 @@ const AppointmentSchema = mongoose.Schema({
     },
     tests: [
         {
-            testId:{
-                type: mongoose.Schema.Types.ObjectId,
-                required: true,
-                ref: 'Categories'
-            }
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            ref: 'Categories'
         }
     ]
 });
 
+module.exports = mongoose.model('Appointments',AppointmentSchema);

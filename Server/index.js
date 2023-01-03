@@ -6,7 +6,10 @@ const mongoose = require('mongoose');
 const auth = require('./routes/auth');
 const admin = require('./routes/admin');
 const users = require('./routes/user');
+const doctors = require('./routes/doctor');
 app = express();
+
+mongoose.set('strictQuery',false);
 
 app.use(bodyParser.json({extended: false}));
 
@@ -20,6 +23,7 @@ app.use((req,res,next)=>{
 })
 app.use(auth)
 app.use('/admin',admin)
+app.use('/doctor',doctors);
 app.use(users)
 
 mongoose.connect('mongodb://localhost:27017/NoSQL-AAT').then(()=>{

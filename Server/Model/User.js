@@ -26,10 +26,8 @@ customerSchema = new mongoose.Schema({
     },
     appointments: [
         {
-            appointmentId: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Appointments'
-            }
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Appointments'
         }
     ],
     reports:[
@@ -40,6 +38,14 @@ customerSchema = new mongoose.Schema({
             },
             status: {
                 type: String,
+            },
+            appointmentTime: {
+                type: Date,
+                required: true
+            },
+            categoryId: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Categories'
             }
         }
     ]
@@ -47,5 +53,5 @@ customerSchema = new mongoose.Schema({
     timestamps: true
 });
 
-module.exports = mongoose.model('Customer',customerSchema)
+module.exports = mongoose.model('Customers',customerSchema)
 

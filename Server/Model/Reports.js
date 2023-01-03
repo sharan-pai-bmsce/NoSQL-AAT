@@ -1,4 +1,4 @@
-const { default: mongoose } = require("mongoose");
+const { default: mongoose, model } = require("mongoose");
 
 const Report = new mongoose.Schema({
     userId: {
@@ -6,21 +6,28 @@ const Report = new mongoose.Schema({
         required: true,
         ref: 'Customers'
     },
+    testId: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Categories'
+    },
     details: {
         type: Object,
-        required: true,
     },
     processing:{
         type:Boolean,
+        default: false,
         required: true,
     },
     signed:{
         type: Boolean,
+        default: false,
         required: true,
     },
     doctor:{
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'Doctor' 
+        ref: 'Doctors' 
     }
-})
+});
+
+module.exports = mongoose.model('Reports',Report);

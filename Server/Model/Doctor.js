@@ -28,5 +28,4 @@ doctorSchema = new mongoose.Schema({
     timestamps: true
 });
 
-mongoose.model('Doctor',doctorSchema)
-
+module.exports = mongoose.model('Doctors',doctorSchema);
