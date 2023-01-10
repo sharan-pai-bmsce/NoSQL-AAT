@@ -15,17 +15,24 @@ window.addEventListener('DOMContentLoaded', (e) => {
         })
         .then((data) => {
             document.getElementById('appointments').innerHTML = data.appointments.map((appointment) => {
-                return `<div>
-            <h5>Start Time: ${appointment.startTime}</h5>
-            <h5>End Time: ${appointment.endTime}</h5>` +
-                    appointment.tests.map((test) => `<div class="row">
-                <div class="col-md-6">
-                    <h5>Category: ${test.category}</h5>
+                return `<div class="border border-dark">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Start Time: ${appointment.startTime}</h5>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>End Time: ${appointment.endTime}</h5>
+                    </div>
+                </div>` +
+                    appointment.tests.map((test) => `
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Category: ${test.category}</h5>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Sub-Category: ${test.subCategory}</h5>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <h5>Sub-Category: ${test.subCategory}</h5>
-                </div>
-            </div>
             <h5>Tests: <ul>`+ test.attributes.map((attribute) => `<li>${attribute.test}</li>`) + `</ul></h5>`) + `
         </div>`
             })
