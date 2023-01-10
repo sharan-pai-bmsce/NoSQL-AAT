@@ -2,7 +2,7 @@ const { default: mongoose } = require("mongoose");
 
 const ScheduleSchema = mongoose.Schema({
     time:{
-        type: mongoose.Schema.Types.Number,
+        type: mongoose.Schema.Types.Date,
         required: true
     },
     count: {

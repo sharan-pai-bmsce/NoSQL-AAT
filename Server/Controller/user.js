@@ -88,8 +88,30 @@ exports.getCategory = (req,res,next) => {
     })
 }
 
+exports.getAppointments = (req,res,next) => {
+    const userId = req.headers['authorization'];
+    console.log(userId);
+    Appointment.find({
+        userId: userId
+    })
+    .populate('tests',{
+        category:1,
+        subCategory: 1,
+        attributes:{
+            test: 1
+        }
+    })
+    .then((appointments)=>{
+        return res.status(200).json({
+            appointments: appointments
+        })
+    })
+    
+}
+
 exports.postAppointment = (req, res, next) => {
-    const userId = req.userId;
+    const userId = req.headers['authorization'];
+    console.log(userId);
     let subCategories = req.body.subCategories;
     const startTime = new Date(req.body.start);
     const endTime = new Date(req.body.end);
@@ -104,7 +126,7 @@ exports.postAppointment = (req, res, next) => {
         .then((schedule) => {
             if (schedule == null) {
                 schedule = new Schedule({
-                    time: startTime.valueOf(),
+                    time: startTime,
                     count: 0,
                 })
             }
@@ -150,8 +172,8 @@ exports.postAppointment = (req, res, next) => {
 }
 
 exports.getTime = (req,res,next) => {
-    const startDate = new Date(req.params.date).valueOf();
-    const endDate = startDate + (24*60*60*1000);
+    const startDate = new Date(req.params.date);
+    const endDate = new Date(startDate.valueOf() + (24*60*60*1000));
     console.log(startDate);
     Schedule.find({
         time:{

@@ -122,86 +122,83 @@ exports.getReports = (req, res, next) => {
     Reports.find({
         processing: false
     })
-    .populate('userId','name')
-    .populate('testId','category subCategory')
-    .populate('doctor','name')
-    .then((reports)=>{
-        return res.status(200).json({
-            message: "Reports",
-            reports: reports
-        });
-    })
+        .populate('userId', 'name')
+        .populate('testId', 'category subCategory')
+        .populate('doctor', 'name')
+        .then((reports) => {
+            return res.status(200).json({
+                message: "Reports",
+                reports: reports
+            });
+        })
 }
 
 exports.getReport = (req, res, next) => {
     const reportId = req.params.reportId;
     Reports.findById(reportId)
-    .populate('userId','name DOB sex')
-    .populate('testId')
-    .populate('doctor','name')
-    .then((report)=>{
-        return res.status(200).json({
-            message: "Reports",
-            reports: report
+        .populate('userId', 'name DOB sex')
+        .populate('testId')
+        .populate('doctor', 'name')
+        .then((report) => {
+            return res.status(200).json({
+                message: "Reports",
+                reports: report
+            });
         });
-    });
 }
 
 
-exports.postReport = (req,res,next) => {
+exports.postReport = (req, res, next) => {
     const reportId = req.body.reportId;
     const userId = req.body.userId;
     const body = req.body.content;
     // let report = null;
     body['reportedDate'] = Date.now();
     Reports.findById(reportId)
-    .then((report)=>{
-        if(!report.processing)
-        report.details = body;
-        report.processing = true;
-        return report.save();
-    })
-    .then((report)=>{
-        // this.report = report;
-        return User.findById(userId);
-    })
-    .then((user)=>{
-        const index = user.reports.findIndex((report)=>report.reportId.toString() === reportId);
-        user.reports[index].status = "Report generated. Waiting for doctor's review";
-        return user.save();
-    })
-    .then((user)=>{
-        return res.status(201).json({
-            message: "Report Generated",
-            user: user
+        .then((report) => {
+            if (!report.processing)
+                report.details = body;
+            report.processing = true;
+            return report.save();
         })
-    })
-    .catch((err)=>{
-        console.log(err);
-        return res.status(500).json({
-            message: err
-        });
-    })
+        .then((report) => {
+            // this.report = report;
+            return User.findById(userId);
+        })
+        .then((user) => {
+            const index = user.reports.findIndex((report) => report.reportId.toString() === reportId);
+            user.reports[index].status = "Report generated. Waiting for doctor's review";
+            return user.save();
+        })
+        .then((user) => {
+            return res.status(201).json({
+                message: "Report Generated",
+                user: user
+            })
+        })
+        .catch((err) => {
+            console.log(err);
+            return res.status(500).json({
+                message: err
+            });
+        })
 }
 
 exports.postDoctor = (req, res, next) => {
-    bcrypt.hash(req.body.password, 10)
-        .then((hash) => {
-            const doctor = new Doctor({
-                name: req.body.name,
-                email: req.body.email,
-                password: hash,
-                degreeUrl: req.body.degreeUrl,
-                degree: req.body.degree,
-            })
+    const doctor = new Doctor({
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+        degreeUrl: req.body.degreeUrl,
+        degree: req.body.degree,
+    })
 
-            return doctor.save();
-        })
+    doctor.save()
         .then((doctor) => {
-            return res.status(201).json({
-                message: "Doctor created",
-                doctor: doctor
-            })
+        return res.status(201).json({
+            message: "Doctor created",
+            doctor: doctor
         })
+    })
 }
 

@@ -13,6 +13,8 @@ router.get('/categories',userC.getCategory);
 // http://localhost:3000/time/2020-03-21   POST
 router.post('/appointment',userC.postAppointment);
 
+router.get('/appointments',userC.getAppointments);
+
 // http://localhost:3000/reports   GET
 router.get('/reports',userC.getReports);
 

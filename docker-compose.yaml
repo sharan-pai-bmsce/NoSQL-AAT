@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+
+  mongodb: 
+    container_name: 'mongodb'
+    image: mongo:latest
+
+    volumes:
+      - mongodb-data:/data/db
+    
+    ports:
+      - 27017:27017
+  
+  node-server:
+    container_name: node-server
+    image: server-img:latest
+    
+    volumes:
+      - node-server-modules:/app/node_modules
+      - ./Server:/app
+
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongodb
+
+volumes:
+  mongodb-data:
+  node-server-modules:
+
