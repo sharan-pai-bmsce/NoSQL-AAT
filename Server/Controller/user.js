@@ -197,7 +197,7 @@ exports.getTime = (req,res,next) => {
 }
 
 exports.getReports = (req,res, next) => {
-    const userId = req.userId;
+    const userId = req.headers['authorization'];
     User.findById(userId)
     .populate('reports.categoryId','category subCategory')
     .then((user)=>{
