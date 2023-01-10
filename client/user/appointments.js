@@ -39,3 +39,9 @@ window.addEventListener('DOMContentLoaded', (e) => {
     })
         .catch(err => alert(err))
 })
+
+document.getElementById('logout').addEventListener('click',(e)=>{
+    e.preventDefault();
+    window.localStorage.removeItem('userId');
+    window.location.href = '../index.html';
+})
