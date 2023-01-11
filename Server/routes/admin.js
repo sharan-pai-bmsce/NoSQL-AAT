@@ -4,6 +4,8 @@ const adminC = require('../Controller/admin');
 
 router = express.Router()
 
+router.get('/categories',adminC.getCategories);
+
 // http://localhost:3000/admin/categories   POST: This body category
 router.post('/categories',adminC.postCategory);
 
@@ -12,6 +14,8 @@ router.get('/appointments/:startDate',adminC.getAppointments);
 
 // http://localhost:3000/admin/appointmentDetail/<id>   GET
 router.get('/appointmentDetail/:id',adminC.getAppointmentDetail);
+
+router.delete('/delete-appointment',adminC.deleteAppointment);
 
 // http://localhost:3000/admin/doctor   POST
 router.post('/doctor',adminC.postDoctor);

@@ -19,10 +19,28 @@ exports.postCategory = async (req, res, next) => {
         attributes: attributes
     })
     // console.log(attributes);
-    await category.save()
-    res.status(201).json({
-        message: "Category created"
+    category.save().then((category)=>{
+        return res.status(201).json({
+            message: "Category created"
+        })
     })
+}
+
+exports.getCategories = (req, res, next) => {
+    Category.find({}, {
+        category: 1,
+        subCategory: 1,
+        attributes: {
+            test: 1
+        }
+    })
+        .then((categories) => {
+            return res.status(200).json({
+                message: 'Categories',
+                categories: categories
+            })
+        })
+        .catch(err => res.status(500).json({ message: err }))
 }
 
 exports.getAppointments = async (req, res, next) => {
@@ -36,10 +54,10 @@ exports.getAppointments = async (req, res, next) => {
             $lt: endDate
         }
     })
-    .populate('userId','name email')
-    .sort({
-        startTime: 1,
-    })
+        .populate('userId', 'name email')
+        .sort({
+            startTime: 1,
+        })
         .then((docs) => {
             return res.status(200).json({
                 message: "Appointments",
@@ -58,6 +76,24 @@ exports.getAppointmentDetail = (req, res, next) => {
             return res.status(200).json({
                 "message": "Appointment Details",
                 user: docs
+            })
+        })
+}
+
+exports.deleteAppointment = (req,res,next) => {
+    const id = req.body.id;
+    const userId = req.body.userId;
+    User.findById(userId)
+        .then((user)=>{
+            user.appointments = user.appointments.filter((appointment)=>appointment.toString()!==id);
+            return user.save();
+        })
+        .then((user)=>{
+            return Appointment.findByIdAndDelete(id);
+        })
+        .then((appointment)=>{
+            return res.status(200).json({
+                message: 'Appointment Deleted'
             })
         })
 }
@@ -202,10 +238,10 @@ exports.postDoctor = (req, res, next) => {
 
     doctor.save()
         .then((doctor) => {
-        return res.status(201).json({
-            message: "Doctor created",
-            doctor: doctor
+            return res.status(201).json({
+                message: "Doctor created",
+                doctor: doctor
+            })
         })
-    })
 }
 

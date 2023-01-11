@@ -54,7 +54,7 @@ let generatePdf = (res,report,user) => {
     });
     doc.text("Remarks: "+report.details.remarks,50,tableTop+40)
     tableTop+=70;
-    doc.image(report.doctor.degreeUrl,440,tableTop+40,{width: 160,height: 80});
+    doc.image(report.doctor.signUrl,440,tableTop+40,{width: 160,height: 80});
     doc
     .text("Verified By:",450,tableTop+135)
     .text(report.doctor.name,450,tableTop+150)
@@ -227,7 +227,7 @@ exports.getReport = (req,res,next) => {
         doctor: 1,
         appointmentTime: 1
     })
-    .populate('doctor','name degree degreeUrl')
+    .populate('doctor','name degree signUrl')
     .then(report => {
         if(report===null){
             return res.status(403).json({

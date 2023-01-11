@@ -12,6 +12,8 @@ const getCategory = () => {
     })
 }
 
+
+
 const submitForm = (e,date) => {
     const startTime = date.valueOf()+(JSON.parse(document.getElementById('start-time').value.split(':')[0])*60*60*1000)
     const endTime = date.valueOf()+(JSON.parse(document.getElementById('end-time').value.split(':')[0])*60*60*1000)
@@ -58,6 +60,14 @@ const submitForm = (e,date) => {
     .catch(err=>alert(err))
 }
 
+const addPackages = (results) => {
+    document.getElementById('add-button').addEventListener('click',(e)=>{
+        e.preventDefault();
+        document.getElementById('category-container').innerHTML += ` <label>Packages:</label>
+        <select type="text" class="form-select category-select" id="sub-categories">${results}</select>`
+    })
+}
+
 const createForm = (e,date) => {
     const timeSlot = e.target.parentElement.children[0].innerText.split('-');
     getCategory()
@@ -65,11 +75,22 @@ const createForm = (e,date) => {
         let results = data.categories.map((elements)=>{
             return `<option value="${elements.subCategory}">${elements.category+'-'+elements.subCategory+' includes '+elements.attributes.map((ele)=>ele.test)}</option>`
         })
-        let value = `<input type="text" class="form-control" id="start-time" disabled="true" value="${timeSlot[0]}:00">
-        <input type="text" id="end-time" disabled="true" class="form-control" value="${timeSlot[1]}:00">
-        <select type="text" class="form-select category-select" id="sub-categories">${results}</select>
-        <input type="submit" id="book-appointment" value="Book Appointment">`
+        let value = `
+        <div>
+            <label>Start Time:</label>
+            <input type="text" class="form-control" id="start-time" disabled="true" value="${timeSlot[0]}:00">
+        </div>
+        <div>
+            <label>End Time:</label>
+            <input type="text" id="end-time" disabled="true" class="form-control" value="${timeSlot[1]}:00">
+        </div>
+        <div style='text-align: right'>
+            <button id='add-button' class='btn btn-dark'>+</button>
+        </div>
+        <div id='category-container'></div>
+        <input type="submit" class='btn btn-dark' id="book-appointment" value="Book Appointment">`
         document.getElementById('appointment-form').innerHTML = value;
+        addPackages(results)
         document.getElementById('book-appointment').addEventListener('click',(e)=>{
             e.preventDefault();
             submitForm(e,date);

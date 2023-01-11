@@ -16,7 +16,7 @@ doctorSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    degreeUrl:{
+    signUrl:{
         type: String,
         required: true,
     }, 

@@ -29,11 +29,38 @@ const generateReport = (appointmentId,userId,tests) => {
     })
 }
 
+const deleteAppointment = (appointmentId,userId) => {
+    document.getElementById('delete').addEventListener('click',(e)=>{
+        e.preventDefault();
+        fetch('http://localhost:3000/admin/delete-appointment',{
+            'method': 'DELETE',
+            'headers': {
+                'Content-Type': 'application/json'
+            },
+            'body': JSON.stringify({
+                id: appointmentId,
+                userId: userId
+            })
+        })
+        .then((res)=>{
+            if(res.status===200){
+                return res.json();
+            }
+            throw new Error(res.json().then(err=>err.message))
+        })
+        .then(data=>{
+            window.location.href = './home.html';
+        })
+        .catch(err=>{
+            alert(err);
+        })
+    })
+}
 
 window.addEventListener('DOMContentLoaded', (e) => {
     e.preventDefault();
     const appointmentId = window.localStorage.getItem('appointmentId');
-    // window.localStorage.removeItem('appointmentId');
+    window.localStorage.removeItem('appointmentId');
     if (!appointmentId) {
         window.location.href = './home.html';
     } else
@@ -82,12 +109,13 @@ window.addEventListener('DOMContentLoaded', (e) => {
             })
             +`</ul>
             </div>
-            <div>
+            <div style='text-align: right'>
+                <input type='button' class='btn btn-danger' id='delete' value='Delete Appointment'>
                 <input type='button' class='btn btn-dark' id='done' value='Appointment Done'></input>
             </div>
             `
-
-            generateReport(appointmentId,appointment.userId._id,appointment.tests.map(element=>element._id))
+            deleteAppointment(appointmentId,appointment.userId._id);
+            generateReport(appointmentId,appointment.userId._id,appointment.tests.map(element=>element._id));
             })
             .catch((err) => alert(err))
 })
