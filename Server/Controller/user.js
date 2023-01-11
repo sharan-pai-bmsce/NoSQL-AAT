@@ -28,7 +28,7 @@ let generatePdf = (res,report,user) => {
     .text('Report id: '+report._id.toString(),50,75)
     .text('Name: '+user.name,300,75)
     .text('Age: '+age+' years',50,90)
-    .text('Collected Date: '+new Date(report.details.reportedDate).toISOString(),300,90)
+    .text('Collected Date: '+report.appointmentTime.toISOString(),300,90)
     .text('Sex: '+user.sex,50,105)
     .text('Reported Date: '+new Date(Date.now()).toISOString(),300,105)
     
@@ -130,7 +130,7 @@ exports.postAppointment = (req, res, next) => {
                     count: 0,
                 })
             }
-            schedule.count += subCategories.length;
+            schedule.count += 1;
             return schedule.save();
         })
         .then((schedule) => {
@@ -224,7 +224,8 @@ exports.getReport = (req,res,next) => {
         details: 1,
         userId: 1,
         _id: 1,
-        doctor: 1
+        doctor: 1,
+        appointmentTime: 1
     })
     .populate('doctor','name degree degreeUrl')
     .then(report => {

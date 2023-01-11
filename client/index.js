@@ -62,3 +62,34 @@ document.getElementById('doctor-login').addEventListener('click',(e)=>{
         alert(err.message)
     })
 })
+
+document.getElementById('admin-login').addEventListener('click',(e)=>{
+    e.preventDefault()
+    let email = document.getElementById('admin-email').value;
+    let password = document.getElementById('admin-password').value;
+    console.log(email,password);
+    fetch('http://localhost:3000/admin-login',{
+        'method': 'POST',
+        'headers': {
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        'body':JSON.stringify({
+            email: email,
+            password: password
+        })
+    })
+    .then((res)=>{
+        if(res.status===201)
+            return res.json().then((data)=>{
+                console.log(data);
+                email.value = '';
+                password = '';
+                window.location.href = './admin/home.html';
+            });
+        throw new Error('User not validated')
+    })
+    .catch((err)=>{
+        alert(err.message)
+    })
+})

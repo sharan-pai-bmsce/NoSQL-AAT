@@ -65,7 +65,7 @@ window.addEventListener('DOMContentLoaded',(e)=>{
                     <h6>Sex: ${report.userId.sex}</h6>
                 </div>
                 <div class="col-md-4">
-                    <h6>DOB: ${new Date(report.userId.DOB)}</h6>
+                    <h6>DOB: ${report.userId.DOB}</h6>
                 </div>
             </div>
             <h3 style="text-align: center">Report Information</h3>
@@ -75,7 +75,7 @@ window.addEventListener('DOMContentLoaded',(e)=>{
                     <h6>Report Id: ${report._id}</h6>
                 </div>
                 <div class="col-md-6">
-                    <h6>Appointment Time: ${new Date(report.appointmentTime)}</h6>
+                    <h6>Appointment Time: ${report.appointmentTime}</h6>
                 </div>
             </div>
             <div class="row pb-3">
@@ -86,7 +86,7 @@ window.addEventListener('DOMContentLoaded',(e)=>{
                     <h6>Sub Category: ${report.details.subCategory}</h6>
                 </div>
                 <div class="col-md-4">
-                    <h6>Reported Time: ${new Date(report.details.reportedDate)}</h6>
+                    <h6>Reported Time: ${report.details.reportedDate}</h6>
                 </div>
             </div>
             <table class="table">
@@ -103,7 +103,7 @@ window.addEventListener('DOMContentLoaded',(e)=>{
                     <tr>
                         <td>${attribute.test}</td>
                         <td>${attribute.value}</td>
-                        <td>${attribute.unit}</td>
+                        <td>${!attribute.unit?'-':attribute.unit}</td>
                         <td>${!attribute.reference?'-':attribute.reference}</td>
                     </tr>
                     `

@@ -36,6 +36,10 @@ exports.getAppointments = async (req, res, next) => {
             $lt: endDate
         }
     })
+    .populate('userId','name email')
+    .sort({
+        startTime: 1,
+    })
         .then((docs) => {
             return res.status(200).json({
                 message: "Appointments",
@@ -50,7 +54,7 @@ exports.getAppointmentDetail = (req, res, next) => {
         .populate("userId", "name email sex DOB")
         .populate("tests", "subCategory category")
         .then((docs) => {
-            console.log(docs);
+            // console.log(docs);
             return res.status(200).json({
                 "message": "Appointment Details",
                 user: docs
@@ -65,7 +69,6 @@ exports.putReport = (req, res, next) => {
     const id = req.body.id;
     const userId = req.body.userId;
     const tests = req.body.tests;
-    let appointmentTime = null;
     let reports = null;
     Appointment.findByIdAndDelete(id)
         .then((appointment) => {
@@ -126,6 +129,9 @@ exports.getReports = (req, res, next) => {
         .populate('userId', 'name')
         .populate('testId', 'category subCategory')
         .populate('doctor', 'name')
+        .sort({
+            appointmentTime: 1,
+        })
         .then((reports) => {
             return res.status(200).json({
                 message: "Reports",
