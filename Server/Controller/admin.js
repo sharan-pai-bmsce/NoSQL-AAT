@@ -69,7 +69,7 @@ exports.putReport = (req, res, next) => {
     let reports = null;
     Appointment.findByIdAndDelete(id)
         .then((appointment) => {
-            appointmentTime = appointment.startTime;
+            const appointmentTime = appointment.startTime;
             if (appointment == null) {
                 return res.status(402).json({
                     message: "Appointment already removed"
@@ -81,7 +81,8 @@ exports.putReport = (req, res, next) => {
                     signed: false,
                     testId: test,
                     userId: userId,
-                    doctor: "63b03a92e644b1f72a03a9e4"
+                    doctor: "63b03a92e644b1f72a03a9e4",
+                    appointmentTime: appointmentTime
                 })
             });
 
@@ -153,7 +154,7 @@ exports.postReport = (req, res, next) => {
     const userId = req.body.userId;
     const body = req.body.content;
     // let report = null;
-    body['reportedDate'] = Date.now();
+    body['reportedTime'] = new Date();
     Reports.findById(reportId)
         .then((report) => {
             if (!report.processing)

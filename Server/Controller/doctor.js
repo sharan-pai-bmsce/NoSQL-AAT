@@ -15,7 +15,7 @@ exports.getReports = (req,res,next) => {
         signed: 0    
     })
     .populate('userId','name sex DOB')
-    .populate('testId','category subCategory')
+    .populate('testId','category subCategory appointmentTime')
     .then((reports) => {
         return res.status(200).json({
             message: "Reports to be signed",

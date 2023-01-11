@@ -27,6 +27,9 @@ const Report = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'Doctors' 
+    },
+    appointmentTime:{
+        type: Date
     }
 });
 
